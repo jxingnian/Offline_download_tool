@@ -39,7 +39,7 @@ void led_init(void)
     ESP_ERROR_CHECK(ws2812b_init());
     
     // 设置第一个LED的颜色
-    ws2812b_set_pixel(0, 255, 255, 255);
+    ws2812b_set_pixel(0, 0, 255, 255);
     
     // 创建LED闪烁任务
     xTaskCreate(led_blink_task, "LED Blink Task", 2048, NULL, 5, NULL);
