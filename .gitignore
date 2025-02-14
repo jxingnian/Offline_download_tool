@@ -1,7 +1,7 @@
 # ESP-IDF specific
 build/
 managed_components/
-
+sdkconfig
 sdkconfig.old
 dependencies.lock
 
@@ -9,6 +9,9 @@ dependencies.lock
 .vscode/
 *.code-workspace
 .history/
+.vs/
+*.suo
+*.user
 
 # Build generated
 *.o
@@ -16,27 +19,50 @@ dependencies.lock
 *.pyc
 __pycache__/
 .pytest_cache/
+cmake-build-*/
 
 # IDE specific
 .idea/
 *.swp
 *.swo
 *~
+.settings/
+.cproject
+.project
 
 # OS specific
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Debug files
 *.log
 *.debug
+*.dmp
+core
 
 # Binary files
 *.bin
 *.elf
 *.map
+*.hex
+*.lst
+*.dis
 
 # Temporary files
 *.bak
 *.tmp
 *.temp
+
+# ESP-IDF specific extras
+components/esp32*/
+components/newlib/
+components/soc/
+components/bootloader/
+components/partition_table/
+flash_project_args
+flasher_args.json
+
+# Documentation
+docs/_build/
+docs/doxygen_sqlite3.db
