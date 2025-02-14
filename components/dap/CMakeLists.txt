@@ -1,10 +1,11 @@
 idf_component_register(SRCS 
-                            "src/dap_main.c"
-                            "src/dap_protocol.c"
-                            "src/dap_hw.c"
-                        INCLUDE_DIRS 
-                            "." "include"
-                        REQUIRES 
-                            "driver"
-                            "tinyusb"
+                        "dap_main.c"
+                        "dap_protocol.c"
+                        "dap_hw.c"
+                    INCLUDE_DIRS 
+                        "."
+                    REQUIRES 
+                        "driver"
+                    PRIV_REQUIRES
+                        "espressif__tinyusb"
 )

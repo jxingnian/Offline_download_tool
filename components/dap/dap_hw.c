@@ -1,3 +1,10 @@
+/*
+ * @Author: xingnina j_xingnian@163.com
+ * @Date: 2025-02-14 09:25:24
+ * @LastEditors: xingnina j_xingnian@163.com
+ * @LastEditTime: 2025-02-14 17:14:34
+ * @FilePath: \Offline_download_tool\components\dap\src\dap_hw.c
+ */
 /**
  * @file dap_hw.c
  * @brief DAP硬件抽象层实现

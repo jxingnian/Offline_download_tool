@@ -1,7 +1,9 @@
 # 注册组件，指定源文件、包含目录和依赖项
 idf_component_register(SRCS "usb_descriptors.c"
-                    INCLUDE_DIRS "." # 这里的 "." 会包含当前目录，确保 tusb_config.h 能被找到
-                    REQUIRES "dap" "espressif__tinyusb")
+                    INCLUDE_DIRS "."
+                    REQUIRES "espressif__tinyusb"
+                    PRIV_REQUIRES "dap"
+)
 
 # 获取 tinyusb 库的引用
 idf_component_get_property(tusb_lib espressif__tinyusb COMPONENT_LIB)
