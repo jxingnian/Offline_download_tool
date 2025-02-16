@@ -26,6 +26,10 @@ static rmt_encoder_handle_t led_encoder = NULL;
 
 static const char *TAG = "led";
 
+static esp_err_t ws2812b_init(void);
+static esp_err_t ws2812b_set_pixel(uint32_t index, uint8_t red, uint8_t green, uint8_t blue);
+static void led_blink_task(void *pvParameters);
+
 /**
  * @brief 初始化LED控制
  */

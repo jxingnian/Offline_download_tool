@@ -1,11 +1,12 @@
-idf_component_register(SRCS 
-                        "dap_main.c"
-                        "dap_protocol.c"
-                        "dap_hw.c"
-                    INCLUDE_DIRS 
-                        "."
-                    REQUIRES 
-                        "driver"
-                    PRIV_REQUIRES
-                        "espressif__tinyusb"
-)
+set(COMPONENT_ADD_INCLUDEDIRS "." "Include/" "cmsis-core")
+set(COMPONENT_SRCS 
+			"Source/DAP.c "
+			"Source/DAP_vendor.c"
+			"Source/JTAG_DP.c"
+			"Source/SW_DP.c"
+			"Source/swd_host.c"
+			"Source/error.c"
+			"dap_handle.c"
+			)
+set(COMPONENT_REQUIRES driver)
+register_component()

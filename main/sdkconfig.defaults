@@ -1,0 +1,26 @@
+# 此文件使用 idf.py save-defconfig 生成，可以手动编辑。
+# Espressif IoT Development Framework (ESP-IDF) 项目最小配置
+
+# 设置 TinyUSB HID 设备数量为 1
+CONFIG_TINYUSB_HID_COUNT=1
+
+# 启用 TinyUSB MSC (Mass Storage Class) 功能
+CONFIG_TINYUSB_MSC_ENABLED=y
+
+# 使用自定义分区表
+CONFIG_PARTITION_TABLE_CUSTOM=y
+# 指定自定义分区表文件名
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+# 设置分区表文件名
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+
+# 设置 Flash 大小为 16MB
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+
+# 设置磨损均衡(Wear Levelling)扇区大小为 512 字节
+CONFIG_WL_SECTOR_SIZE_512=y
+# 设置磨损均衡模式为性能优先
+CONFIG_WL_SECTOR_MODE_PERF=y
+
+# 启用 FAT 文件系统的长文件名(LFN)堆内存分配
+CONFIG_FATFS_LFN_HEAP=y

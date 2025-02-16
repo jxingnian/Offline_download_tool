@@ -17,8 +17,5 @@
 
 //函数声明
 void led_init(void);
-static esp_err_t ws2812b_init(void);
-static esp_err_t ws2812b_set_pixel(uint32_t index, uint8_t red, uint8_t green, uint8_t blue);
-static void led_blink_task(void *pvParameters);
 
 #endif

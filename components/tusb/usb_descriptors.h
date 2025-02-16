@@ -10,11 +10,6 @@
 #ifndef USB_DESCRIPTORS_H_
 #define USB_DESCRIPTORS_H_
 
-// 定义接口编号
-enum
-{
-  ITF_NUM_HID = 0,
-  ITF_NUM_TOTAL
-};
+void tud_hid_init(void);
 
 #endif /* USB_DESCRIPTORS_H_ */

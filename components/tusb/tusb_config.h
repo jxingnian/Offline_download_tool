@@ -2,8 +2,8 @@
  * @Author: xingnina j_xingnian@163.com
  * @Date: 2025-02-14 08:53:11
  * @LastEditors: xingnina j_xingnian@163.com
- * @LastEditTime: 2025-02-14 15:30:58
- * @FilePath: \Offline_download_tool\main\tusb\tusb_config.h
+ * @LastEditTime: 2025-02-15 11:23:57
+ * @FilePath: \Offline_download_tool\components\tusb\tusb_config.h
  */
 /*
  * The MIT License (MIT)
@@ -69,7 +69,6 @@ extern "C" {
 
 // 启用 HID 设备类（用于 CMSIS-DAP）
 #define CFG_TUD_HID              1
-#define CFG_TUD_HID_EP_BUFSIZE   64
 
 // HID 端点配置
 #define CFG_TUD_HID_EP_INTERVAL  1

@@ -1,0 +1,12 @@
+# Name,   Type, SubType, Offset,  Size, Flags
+# 注意：如果增加了引导加载程序的大小，请确保更新偏移量以避免重叠
+# 名称：分区的名称
+# 类型：分区的类型（data 或 app）
+# 子类型：分区的子类型
+# 偏移量：分区的起始地址
+# 大小：分区的大小
+# 标志：可选的额外标志
+nvs,      data, nvs,     0x9000,  0x6000,  # NVS（非易失性存储）分区，用于存储键值对
+phy_init, data, phy,     0xf000,  0x1000,  # PHY 初始化数据分区
+factory,  app,  factory, 0x10000, 1M,      # 工厂应用程序分区，存储主要的应用程序
+storage,  data, fat,     ,        14M,     # FAT 文件系统分区，用于数据存储
