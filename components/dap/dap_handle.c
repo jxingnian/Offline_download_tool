@@ -31,23 +31,24 @@ esp_err_t dap_handle_init(void)
         return ESP_FAIL;
     }
 
-    // 创建环形缓冲区
-    dap_request_buf = xRingbufferCreate(sizeof(dap_packet_t) * DAP_BUFFER_NUM, RINGBUF_TYPE_BYTEBUF);
-    dap_response_buf = xRingbufferCreate(sizeof(dap_packet_t) * DAP_BUFFER_NUM, RINGBUF_TYPE_BYTEBUF);
+    // 创建环形缓冲区，增加缓冲区大小
+    dap_request_buf = xRingbufferCreate(sizeof(dap_packet_t) * DAP_BUFFER_NUM * 2, RINGBUF_TYPE_BYTEBUF);
+    dap_response_buf = xRingbufferCreate(sizeof(dap_packet_t) * DAP_BUFFER_NUM * 2, RINGBUF_TYPE_BYTEBUF);
     if (dap_request_buf == NULL || dap_response_buf == NULL) {
         ESP_LOGE(TAG, "Failed to create ring buffer");
         return ESP_FAIL;
     }
 
-    // 创建 DAP 处理任务
-    BaseType_t ret = xTaskCreate(dap_handle_task, "DAP_HANDLE", 4096, NULL, 5, &dap_task_handle);
+    // 初始化 DAP
+    DAP_Setup();
+    
+    // 创建 DAP 处理任务，提高优先级和堆栈大小
+    BaseType_t ret = xTaskCreate(dap_handle_task, "DAP_HANDLE", 8192, NULL, configMAX_PRIORITIES - 2, &dap_task_handle);
     if (ret != pdPASS) {
         ESP_LOGE(TAG, "Failed to create DAP task");
         return ESP_FAIL;
     }
 
-    // 初始化 DAP
-    DAP_Setup();
     ESP_LOGI(TAG, "DAP handle initialized");
     return ESP_OK;
 }
@@ -112,8 +113,10 @@ esp_err_t dap_handle_request(uint8_t *request, uint16_t req_size, uint8_t *respo
 void dap_handle_task(void *arg)
 {
     size_t size;
-    dap_packet_t packet;
     dap_packet_t response;
+    uint32_t cmd_count = 0;
+
+    ESP_LOGI(TAG, "DAP 处理任务启动");
 
     while (1) {
         // 等待请求
@@ -122,23 +125,22 @@ void dap_handle_task(void *arg)
             continue;
         }
 
+        cmd_count++;
         // 打印请求命令
-        ESP_LOGI(TAG, "DAP Command: 0x%02X, Length: %d", req->buf[0], req->length);
-        ESP_LOG_BUFFER_HEX_LEVEL(TAG, req->buf, req->length, ESP_LOG_INFO);
-
+        ESP_LOGI(TAG, "[%lu] DAP 命令: 0x%02X, 长度: %d", cmd_count, req->buf[0], req->length);
+        
         // 处理 DAP 命令
         if (xSemaphoreTake(dap_mutex, portMAX_DELAY) == pdTRUE) {
             response.length = DAP_ProcessCommand(req->buf, response.buf);
             xSemaphoreGive(dap_mutex);
 
             // 打印响应
-            ESP_LOGI(TAG, "DAP Response: Length: %d", response.length);
-            ESP_LOG_BUFFER_HEX_LEVEL(TAG, response.buf, response.length, ESP_LOG_INFO);
-        }
-
-        // 发送响应
-        if (xRingbufferSend(dap_response_buf, &response, sizeof(dap_packet_t), pdMS_TO_TICKS(100)) != pdTRUE) {
-            ESP_LOGW(TAG, "Failed to send response");
+            ESP_LOGI(TAG, "[%lu] DAP 响应: 长度: %d", cmd_count, response.length);
+            
+            // 发送响应
+            if (xRingbufferSend(dap_response_buf, &response, sizeof(dap_packet_t), pdMS_TO_TICKS(100)) != pdTRUE) {
+                ESP_LOGW(TAG, "[%lu] 发送响应失败", cmd_count);
+            }
         }
 
         // 释放请求缓冲区
